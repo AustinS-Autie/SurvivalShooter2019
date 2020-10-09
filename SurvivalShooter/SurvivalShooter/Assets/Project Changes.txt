@@ -1,6 +1,6 @@
 Project details:
 
-Five changes made:
+5 changes made:
 
 #2: Enemy Flash
 #6: Heartbeat
