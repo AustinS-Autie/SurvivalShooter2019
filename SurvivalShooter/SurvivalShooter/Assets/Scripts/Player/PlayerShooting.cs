@@ -13,7 +13,7 @@ public class PlayerShooting : MonoBehaviour
     int shootableMask;
     ParticleSystem gunParticles;
     LineRenderer gunLine;
-    AudioSource gunAudio;
+    AudioSource gunAudio; //audio file was switched out to better reflect laser effect, also sound system was changed slightly
     Light gunLight;
     float effectsDisplayTime = 0.2f;
 
@@ -32,12 +32,18 @@ public class PlayerShooting : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
-        {
-            Shoot ();
-        }
+        Debug.Log(GetComponentInParent<PlayerHealth>().GetPlayerHealth());
 
-        if(timer >= timeBetweenBullets * effectsDisplayTime)
+            if (Input.GetButton ("Fire1"))
+            {
+            if(timer >= timeBetweenBullets && Time.timeScale != 0)
+                Shoot();
+            }
+            else
+                StopGunAudio();
+
+
+        if (timer >= timeBetweenBullets * effectsDisplayTime)
         {
             DisableEffects ();
         }
@@ -50,11 +56,17 @@ public class PlayerShooting : MonoBehaviour
         gunLight.enabled = false;
     }
 
+    public void StopGunAudio()
+    {
+        gunAudio.Stop();
+    }
+
 
     void Shoot ()
     {
         timer = 0f;
 
+        if(!gunAudio.isPlaying)
         gunAudio.Play ();
 
         gunLight.enabled = true;

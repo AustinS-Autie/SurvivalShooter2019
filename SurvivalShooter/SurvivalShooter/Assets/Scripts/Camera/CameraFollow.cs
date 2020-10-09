@@ -16,7 +16,11 @@ public class CameraFollow : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		Vector3 targetCamPos = target.position + offset;
-		transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing * Time.deltaTime);
+		if (target.GetComponent<PlayerHealth>().GetPlayerHealth() > 0)
+		{
+			Vector3 targetCamPos = target.position + offset;
+			transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing * Time.deltaTime);
+		}
+		
 	}
 }

@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -8,6 +11,9 @@ public class EnemyHealth : MonoBehaviour
     public int scoreValue = 10;
     public AudioClip deathClip;
 
+    public float maxDamageTime = 100f;      //added variable, see FlashOnDamage()
+    public float damageTime = 0;            //added variable
+    public int modelToggle;                 //added variable
 
     Animator anim;
     AudioSource enemyAudio;
@@ -15,6 +21,9 @@ public class EnemyHealth : MonoBehaviour
     CapsuleCollider capsuleCollider;
     bool isDead;
     bool isSinking;
+
+    [SerializeField]                    
+    Image healthBar;                        //added healthbar veriable
 
 
     void Awake ()
@@ -25,8 +34,9 @@ public class EnemyHealth : MonoBehaviour
         capsuleCollider = GetComponent <CapsuleCollider> ();
 
         currentHealth = startingHealth;
+        
+        
     }
-
 
     void Update ()
     {
@@ -34,6 +44,14 @@ public class EnemyHealth : MonoBehaviour
         {
             transform.Translate (-Vector3.up * sinkSpeed * Time.deltaTime);
         }
+
+        FlashOnDamage();
+        UpdateHUD();
+    }
+
+    void UpdateHUD()
+    {
+        healthBar.fillAmount = (float)(currentHealth / (startingHealth * 1.0f) );
     }
 
 
@@ -49,12 +67,38 @@ public class EnemyHealth : MonoBehaviour
         hitParticles.transform.position = hitPoint;
         hitParticles.Play();
 
+        damageTime = maxDamageTime;
+
         if(currentHealth <= 0)
         {
             Death ();
         }
     }
 
+    void FlashOnDamage()
+    {
+        if (transform.localScale.x != 1)
+            transform.localScale = new Vector3(1, 1, 1);
+
+        if (damageTime > 0)
+        {
+            damageTime -= 1;
+
+            if (modelToggle == 1)
+            {
+                transform.localScale = new Vector3(0, 0, 0);
+                modelToggle = 0;
+            }
+            else
+            {
+                modelToggle = 1;
+            }
+
+
+        }
+
+
+    }
 
     void Death ()
     {

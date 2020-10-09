@@ -1,8 +1,15 @@
 fileFormatVersion: 2
 guid: 544f2064df03e95419b4a5147c506b08
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - healthSlider: {instanceID: 0}
+  - damageImage: {instanceID: 0}
+  - deathClip: {instanceID: 0}
+  - lowHealth: {fileID: 8300000, guid: 203f2e972ef456f41b91f56136a372a9, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
+  assetBundleName: 
+  assetBundleVariant: 
