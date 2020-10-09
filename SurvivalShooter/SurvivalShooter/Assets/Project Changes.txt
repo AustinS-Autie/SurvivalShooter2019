@@ -1,0 +1,25 @@
+Project details:
+
+Five changes made:
+
+#2: Enemy Flash
+#6: Heartbeat
+#7: Bullet Time
+#8: Dramatic Zoom (Player)
+#10: Enemy Health
+
+Scripts changed:
+-EnemyHealth
+-GameOverManager
+-PlayerHealth
+-PlayerShooting
+
+Assets changed/added:
+-ZomBunny, Zombear, and Hellephant prefabs
+-GunBarrelEnd shoot time parameter under the Player object, converted it to a laser effect and modified its damage output to compensate
+-Added sound file "Player Laser" 
+
+
+
+
+

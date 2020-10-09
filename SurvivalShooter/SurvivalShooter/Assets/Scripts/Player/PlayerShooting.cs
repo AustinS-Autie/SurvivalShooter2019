@@ -40,7 +40,7 @@ public class PlayerShooting : MonoBehaviour
                 Shoot();
             }
             else
-                StopGunAudio();
+                StopGunAudio();                 //added this method
 
 
         if (timer >= timeBetweenBullets * effectsDisplayTime)
@@ -66,7 +66,7 @@ public class PlayerShooting : MonoBehaviour
     {
         timer = 0f;
 
-        if(!gunAudio.isPlaying)
+        if(!gunAudio.isPlaying)         //added this condition, and changed gunAudio file to auto-loop
         gunAudio.Play ();
 
         gunLight.enabled = true;

@@ -26,13 +26,12 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField]
     public AudioClip damageClip;                            //added variable, see PlayLowHealth()
     [SerializeField]
-    public AudioClip deathClip;                             //moved variable
-    
+    public AudioClip deathClip;                             //moved variable 
     [SerializeField]
     public AudioClip lowHealthClip;                         //added variable
 
     [SerializeField]
-    Camera mainCamera;
+    Camera mainCamera;                                      //added camera reference
 
 
     void Awake ()
@@ -62,7 +61,7 @@ public class PlayerHealth : MonoBehaviour
         PlayLowHealth();
 
         if(currentHealth<0 && mainCamera.orthographicSize>0.1)                     //added this condition for the camera
-            mainCamera.orthographicSize -= 0.007f;
+            mainCamera.orthographicSize -= 0.0035f;                                //and this command, zooms the camera in
 
     }
 
@@ -104,8 +103,9 @@ public class PlayerHealth : MonoBehaviour
         playerShooting.DisableEffects ();
         playerShooting.StopGunAudio();
 
+        Time.timeScale = 0.5f;
         anim.SetTrigger ("Die");
-        anim.speed = 0.6f;      //added this line
+       
 
 
         playerAudio.clip = deathClip;
@@ -120,6 +120,7 @@ public class PlayerHealth : MonoBehaviour
     public void RestartLevel ()
     {
         mainCamera.orthographicSize = 1f;
+        Time.timeScale = 1f;
         SceneManager.LoadScene (0);
     }
 

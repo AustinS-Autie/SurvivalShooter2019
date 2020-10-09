@@ -23,12 +23,11 @@ public class GameOverManager : MonoBehaviour
         if (playerHealth.currentHealth <= 0)
         {
             anim.SetTrigger("GameOver");
-            anim.speed = 0.55f;          //added this line
 
             restartTimer += Time.deltaTime;
 
-			if (restartTimer >= restartDelay + 1) {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			if (restartTimer >= restartDelay) {
+                playerHealth.RestartLevel();
                 restartTimer = 0;
             }
         }
