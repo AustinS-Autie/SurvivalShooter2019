@@ -1,5 +1,8 @@
 Project details:
 
+GitHub link:
+https://github.com/AustinS-Autie/SurvivalShooter2019
+
 5 changes made:
 
 #2: Enemy Flash

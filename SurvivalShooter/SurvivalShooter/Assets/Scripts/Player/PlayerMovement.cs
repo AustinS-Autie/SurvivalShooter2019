@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
 	private Rigidbody playerRigidbody;
 	private int floorMask;
 	private float camRayLength = 100f;
+	public int playerInput = 0;
+	float playerRot = 0;
 
 	void Awake()
 	{
@@ -19,14 +21,43 @@ public class PlayerMovement : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		float h = Input.GetAxisRaw("Horizontal");
-		float v = Input.GetAxisRaw("Vertical");
+		float h = Input.GetAxisRaw("Horizontal" + playerInput);
+		float v = Input.GetAxisRaw("Vertical" + playerInput);
 
 		Move(h, v);
-		Turning();
+		//Turning();
 		Animating(h, v);
 	}
+	
+	void Move(float h, float v) //new move
+	{
+		movement.Set(h, 0f, v);
+		movement = movement.normalized * speed * Time.deltaTime;
+		
 
+		playerRigidbody.MovePosition(transform.position + movement);
+
+		
+		//new turning vv
+		int changeAngle = 0;
+
+		//if (h > 0 && (transform.rotation.y * 180) - 90 > 5) changeAngle +=1;
+		//if (h < 0 && (transform.rotation.y * 180) + 90 > 5) changeAngle +=1;
+		//unused
+
+		if (h != 0) changeAngle += 1;
+		if (v != 0) changeAngle += 1;
+
+
+
+		if (changeAngle==1)
+		{
+			playerRot += h * 2.5f;
+			playerRigidbody.MoveRotation(Quaternion.AngleAxis(playerRot, Vector3.up));
+		}
+	}
+
+	/* OLD MOVE/TURNING
 	void Move(float h, float v)
 	{
 		movement.Set(h, 0f, v);
@@ -40,6 +71,16 @@ public class PlayerMovement : MonoBehaviour
 		Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit floorHit;
 
+		if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask))
+		{
+			Vector3 playerToMouse = floorHit.point - transform.position;
+			playerToMouse.y = 0f;
+
+			Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
+			playerRigidbody.MoveRotation(newRotation);
+		}
+
+		
 		if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask)) {
 			Vector3 playerToMouse = floorHit.point - transform.position;
 			playerToMouse.y = 0f;
@@ -47,7 +88,9 @@ public class PlayerMovement : MonoBehaviour
 			Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
 			playerRigidbody.MoveRotation(newRotation);
 		}
+		
 	}
+	*/
 
 	void Animating(float h, float v)
 	{

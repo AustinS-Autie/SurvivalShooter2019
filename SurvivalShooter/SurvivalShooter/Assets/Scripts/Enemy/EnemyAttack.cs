@@ -17,7 +17,7 @@ public class EnemyAttack : MonoBehaviour
 
     void Awake ()
     {
-        player = GameObject.FindGameObjectWithTag ("Player");
+        player = gameObject.GetComponent<EnemyMovement>().GetTarget();
         playerHealth = player.GetComponent <PlayerHealth> ();
         enemyHealth = GetComponent<EnemyHealth>();
         anim = GetComponent <Animator> ();
@@ -26,10 +26,12 @@ public class EnemyAttack : MonoBehaviour
 
     void OnTriggerEnter (Collider other)
     {
-        if(other.gameObject == player)
+        if(other.gameObject == player && playerHealth.currentHealth>0)
         {
-            playerInRange = true;
+        playerInRange = true;
+            
         }
+
     }
 
 
@@ -41,9 +43,22 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
+    void ResetTarget()
+    {
+        player = gameObject.GetComponent<EnemyMovement>().GetTarget();
+        playerHealth = player.GetComponent<PlayerHealth>();
+        enemyHealth = GetComponent<EnemyHealth>();
+        anim = GetComponent<Animator>();
+        playerInRange = false;
+    }
+
 
     void Update ()
     {
+
+        if(playerHealth.currentHealth<=0)
+        ResetTarget();
+
         timer += Time.deltaTime;
 
         if(timer >= timeBetweenAttacks && playerInRange && enemyHealth.currentHealth > 0)

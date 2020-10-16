@@ -18,7 +18,7 @@ public class PlayerHealth : MonoBehaviour
     AudioSource playerAudio;
     PlayerMovement playerMovement;
     PlayerShooting playerShooting;
-    bool isDead;
+    public bool isDead;
     bool damaged;
 
     public AudioSource lowHealth;
@@ -60,7 +60,7 @@ public class PlayerHealth : MonoBehaviour
 
         PlayLowHealth();
 
-        if(currentHealth<0 && mainCamera.orthographicSize>0.1)                     //added this condition for the camera
+        if(currentHealth<0 && mainCamera.orthographicSize>0.5)                     //added this condition for the camera
             mainCamera.orthographicSize -= 0.0035f;                                //and this command, zooms the camera in
 
     }
@@ -104,9 +104,8 @@ public class PlayerHealth : MonoBehaviour
         playerShooting.StopGunAudio();
 
         Time.timeScale = 0.5f;
+        
         anim.SetTrigger ("Die");
-       
-
 
         playerAudio.clip = deathClip;
         playerAudio.Play ();
@@ -119,9 +118,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void RestartLevel ()
     {
-        mainCamera.orthographicSize = 1f;
-        Time.timeScale = 1f;
-        SceneManager.LoadScene (0);
+     //moved to GameOverManager           
     }
 
     public float GetPlayerHealth()
